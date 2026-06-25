@@ -1,0 +1,336 @@
+/* Project-cycle interactive figure for GetSimple.
+   Place as: /theme/YOUR_THEME/asset/custom.css */
+
+.project-cycle-template{
+   background:#fff;
+}
+
+.pc-page{
+  position:relative;
+  background:#fff;
+  padding:14px;
+}
+
+
+.pc-page:has(.reader.open){
+  grid-template-columns:minmax(0, 1fr) 520px;
+  gap:18px;
+}
+
+.pcwrap{
+  position:relative;
+  max-width:1014px;
+  margin:0 auto;
+  font-family:"Open Sans",system-ui,sans-serif;
+  color:#2f2d27;
+}
+
+.pcwrap svg{
+   width:100%;
+   height:auto;
+   display:block
+}
+
+.node{
+   cursor:pointer
+}.recrow{
+   cursor:pointer
+}.spindle{
+   cursor:pointer
+}
+
+.spindle,.node,.nodenum{
+   transition:opacity .15s
+}
+
+.faded{
+   opacity:.16 !important
+}
+
+.pop{
+   position:fixed;
+   z-index:9000;
+   width:300px;
+   max-width:86vw;
+   max-height:min(70vh,430px);
+   overflow:auto;
+   background:#fff;
+   border:1px solid #e4e0d6;
+   border-top:4px solid #999;
+   border-radius:10px;
+   box-shadow:0 10px 30px rgba(47,45,39,.22);
+   padding:12px 14px;
+   font-size:13px;
+   line-height:1.42;
+   opacity:0;
+   transform:translateY(4px);
+   pointer-events:none;
+   transition:opacity .12s,transform .12s
+}
+
+.pop.show{
+   opacity:1;
+   transform:none;
+   pointer-events:auto
+}
+
+.pop .lvl{
+   font-size:11px;
+   font-weight:800;
+   letter-spacing:.02em;
+   text-transform:uppercase;
+   margin:0 0 1px
+}
+
+.pop .role{
+   font-size:11.5px;
+   color:#6f6a5b;
+   margin:0 0 7px
+}
+
+.pop .actor{
+   font-size:11.5px;
+   font-style:italic;
+   margin:0 0 6px
+}
+.pop .action{
+   margin:0 0 9px
+}
+.pop .action em{
+   font-style:italic
+}
+.pop .rc{
+   display:inline-block;
+   font-weight:700;
+   font-size:12.5px;
+   text-decoration:none;
+   border-bottom:2px solid currentColor;
+   padding-bottom:1px
+}
+.pop .prodnote{
+   display:block;
+   margin-top:7px;
+   font-size:10px;
+   color:#b3aea2;
+   word-break:break-all
+}
+.pop .leadtag{
+   display:inline-block;
+   font-size:9.5px;
+   font-weight:800;
+   color:#fff;
+   border-radius:3px;
+   padding:1px 5px;
+   margin-left:6px;
+   vertical-align:middle
+}
+.reader{
+  position:absolute !important;
+  top:0 !important;
+  right:0 !important;
+  bottom:0 !important;
+  height:auto !important;
+  width:520px;
+  max-width:94vw;
+  background:#fbfaf7;
+  border-left:1px solid #e4e0d6;
+  box-shadow:-12px 0 34px rgba(47,45,39,.12);
+  transform:translateX(102%);
+  transition:transform .28s ease;
+  z-index:40;
+  display:flex;
+  flex-direction:column;
+}
+
+.reader.open{
+  transform:none;
+}
+.reader .rhead{
+   background:#f1efea;
+   border-bottom:1px solid #e4e0d6;
+   padding:11px 16px;
+   font-size:11.5px;
+   color:#6f6a5b;
+   position:relative;
+   flex:0 0 auto
+}
+
+.reader .rhead b{
+   color:#2f2d27
+}
+.reader .rclose{
+   position:absolute;
+   top:6px;
+   right:10px;
+   border:none;
+   background:none;
+   font-size:22px;
+   cursor:pointer;
+   color:#6f6a5b;
+   line-height:1
+}
+
+.rbody{
+   padding:0;
+   overflow:auto;
+   flex:1 1 auto
+}
+
+#pdfviewport{
+   padding:12px;
+   background:#efece6
+}
+
+.pdfpage{
+   position:relative;
+   margin:0 auto 14px;
+   box-shadow:0 1px 7px rgba(0,0,0,.18);
+   background:#fff;
+   max-width:100%
+}
+
+.pdfpage canvas{
+   display:block;
+   max-width:100%;
+   height:auto
+}
+
+.pdfhllayer{
+   position:absolute;
+   inset:0;
+   pointer-events:none
+}
+
+.pdfhl{
+   position:absolute;
+   background:rgba(255,210,77,.5);
+   outline:1.5px solid rgba(201,138,0,.7);
+   border-radius:2px;
+   mix-blend-mode:multiply
+}
+
+.pdfloading{
+   padding:24px 18px;
+   color:#6f6a5b;
+   font-size:13px
+}
+
+#htmlreader{
+   padding:6px 18px 60px
+}
+
+#htmlreader h3{
+   font-family:"Open Sans SemiCondensed","Open Sans",sans-serif;
+   font-weight:800;
+   font-size:16px;
+   margin:22px 0 6px
+}
+
+#htmlreader h4{
+   font-size:12.5px;
+   margin:12px 0 3px;
+   font-weight:800
+}
+
+#htmlreader .actor{
+   font-style:italic;
+   font-size:12.5px;
+   margin:0 0 4px
+}
+
+#htmlreader .action{
+   font-size:13px;
+   line-height:1.5;
+   margin:0 0 6px
+}
+
+#htmlreader .action em{
+   font-style:italic
+}
+
+#htmlreader .lead{
+   font-size:9.5px;
+   font-weight:800;
+   color:#fff;
+   background:#2f2d27;
+   border-radius:3px;
+   padding:1px 5px;
+   margin-left:4px
+}
+
+#htmlreader .lvlblock{
+   border-left:3px solid transparent;
+   padding-left:10px;
+   margin-left:-13px;
+   border-radius:0 6px 6px 0;
+   transition:background .3s,border-color .3s
+}
+
+#htmlreader .lvlblock.hl{
+   background:#fff3bf;
+   border-left-color:#c98a00
+}
+
+.hint{
+   font-family:"Open Sans",sans-serif;
+   font-size:12px;
+   color:#9a958a;
+   text-align:center;
+   margin:4px 0 10px
+}
+
+/* When PDF reader opens, reserve space so it does not cover the SVG/legend */
+.pc-page:has(.reader.open) .pcwrap {
+  margin-left: 0 !important;
+  margin-right: 540px !important;
+  max-width: calc(100vw - 600px) !important;
+}
+
+/* keep the reader inside the section */
+.pc-page {
+  overflow: hidden;
+}
+
+/* tablet/mobile: make reader full width below instead of squeezing SVG */
+@media (max-width: 1100px) {
+  .pc-page:has(.reader.open) .pcwrap {
+    margin-right: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .reader {
+    position: relative !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    transform: none !important;
+    margin-top: 24px;
+    height: 70vh !important;
+  }
+
+  .reader:not(.open) {
+    display: none !important;
+  }
+}
+
+.pc-intro p {
+    margin: 0 0 18px;
+    font-size: 16px;
+    line-height: 1.7;
+    color: #6f6a5b;
+
+    text-align: justify;
+    text-justify: inter-word;
+
+    hyphens: none;
+    word-break: normal;
+    overflow-wrap: normal;
+}
+.pc-title {
+  
+    font-family: "Open Sans", sans-serif;
+    font-weight: 800;
+    color: #2f2d27;
+
+
+}
+
