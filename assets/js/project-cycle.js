@@ -64,7 +64,7 @@ async function initPdf(){pdfTried=true;
   }catch(e){console.warn('pdf init failed',e);pdfFailed=true;
     document.getElementById('pdfviewport').style.display='none';document.getElementById('htmlreader').style.display='block';return false;}
 }
-function scrollToPdfPage(slug){
+function scrollToPdfPage(slug, lv){
   pageInfos.forEach(pi => pi.hl.innerHTML = '');
 
   const pageNum = PDF_PAGE[slug];
@@ -73,19 +73,42 @@ function scrollToPdfPage(slug){
   const page = pageInfos.find(pi => pi.pageNum === pageNum);
   if(!page) return false;
 
+  const block = DATA?.[slug]?.levels?.[lv];
+  const anchor = block?.search;
+
   page.pageDiv.scrollIntoView({behavior:'smooth', block:'start'});
 
-  const box = document.createElement('div');
-  box.className = 'pdfhl';
-  box.style.left = '0px';
-  box.style.top = '0px';
-  box.style.width = '100%';
-  box.style.height = '42px';
-  page.hl.appendChild(box);
+  if(anchor){
+    const needle = anchor.toLowerCase().replace(/\s+/g, ' ').trim();
+    const items = page.items.filter(it => it.str && it.str.trim());
 
-  setTimeout(() => {
-    if(box && box.parentNode) box.parentNode.removeChild(box);
-  }, 2500);
+    for(let i = 0; i < items.length; i++){
+      const joined = items
+        .slice(i, i + 18)
+        .map(it => it.str)
+        .join(' ')
+        .toLowerCase()
+        .replace(/\s+/g, ' ')
+        .trim();
+
+      if(joined.includes(needle) || needle.includes(joined.slice(0, 45))){
+        const first = items[i];
+        const tx = pdfjsLib.Util.transform(page.vp.transform, first.transform);
+        const fh = Math.hypot(tx[2], tx[3]);
+
+        const box = document.createElement('div');
+        box.className = 'pdfhl';
+        box.style.left = '0px';
+        box.style.top = Math.max(0, tx[5] - fh - 8) + 'px';
+        box.style.width = '100%';
+        box.style.height = Math.max(30, fh * 3) + 'px';
+
+        page.hl.appendChild(box);
+        box.scrollIntoView({behavior:'smooth', block:'center'});
+        return true;
+      }
+    }
+  }
 
   return true;
 }
@@ -96,7 +119,7 @@ function openReader(slug, lv){
   reader.classList.add('open');
 
   if(pdfReady){
-    scrollToPdfPage(slug);
+    scrollToPdfPage(slug, lv);
   } else if(pdfFailed){
     htmlHL(slug, lv);
   } else {
